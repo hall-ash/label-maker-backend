@@ -34,7 +34,10 @@ class LabelMaker:
         # specs = labels.Specification(sheet_width, sheet_height, cols, rows, label_width, label_height, left_margin=x_margin, column_gap=gap, right_margin=x_margin, top_margin=y_margin, row_gap=gap, bottom_margin=y_margin, left_padding=PADDING, right_padding=PADDING, top_padding=PADDING, bottom_padding=PADDING, corner_radius=2, padding_radius=2)
 
         #specs = labels.Specification(sheet_width, sheet_height, cols, rows, label_width, label_height, left_margin=x_margin, column_gap=x_gap, top_margin=top_margin, row_gap=y_gap, corner_radius=2) # top_padding=2, bottom_padding=1, left_padding=1, right_padding=1, padding_radius=1)
-        specs = labels.Specification(sheet_width, sheet_height, self.cols, self.rows, label_width, label_height, column_gap=column_gap, row_gap=row_gap, left_margin=x_margin, top_margin=top_margin, corner_radius=corner_radius)
+
+        padding_value = 1.75
+        specs = labels.Specification(sheet_width, sheet_height, self.cols, self.rows, label_width, label_height, column_gap=column_gap, row_gap=row_gap, left_margin=x_margin, top_margin=top_margin, corner_radius=corner_radius, left_padding=padding_value, top_padding=padding_value, bottom_padding=padding_value, right_padding=padding_value) if padding_value \
+            else labels.Specification(sheet_width, sheet_height, self.cols, self.rows, label_width, label_height, column_gap=column_gap, row_gap=row_gap, left_margin=x_margin, top_margin=top_margin, corner_radius=corner_radius)
 
         # Create the sheet.
         self.sheet = labels.Sheet(specs, self._write_multiline_text_to_label, border=border)
@@ -110,19 +113,19 @@ class LabelMaker:
         
         # Measure the width of each line and shrink the font size until all lines fit within the width
         font_size = 12
-        text_width = width - 6
+        # text_width = width - 6
         font_name = "Helvetica" # "Bahnschrift"
         max_line_width = max(stringWidth(line, font_name, font_size) for line in lines)
         
-        while max_line_width > text_width:
+        while max_line_width > width:
             font_size *= 0.95
             max_line_width = max(stringWidth(line, font_name, font_size) for line in lines)
 
         # Calculate the total height of the text block to fit and center it vertically
         line_height = font_size * 1.25  # Add some space between lines
         total_text_height = len(lines) * line_height
-        text_height = height - 3
-        while total_text_height > text_height:
+        # text_height = height - 3
+        while total_text_height > height:
             font_size *= 0.95
             line_height = font_size * 1.25
             total_text_height = len(lines) * line_height
