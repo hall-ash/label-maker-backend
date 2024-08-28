@@ -5,8 +5,16 @@ class Label:
 
 		if use_aliquots:
 			self.aliquots = [Aliquot(a['text'], a['number']) for a in aliquots] 
+			self.count = 0
 		else:
-			self.count = count
+			self.aliquots = []
+			if not count:
+				self.count = 0
+			else:
+				try:
+					self.count = int(count)
+				except ValueError:
+					raise ValueError(f"Count must be an integer, but got '{count}'")
 
 
 	def get_text(self):
@@ -17,7 +25,7 @@ class Label:
 			return text
 		
 		else:
-			return [self.name] * self.count
+			return [self.name] * int(self.count)
 	
 
 
@@ -29,7 +37,7 @@ class LabelList:
 			name = l['name']
 			use_aliquots = l['use_aliquots']
 			aliquots = l['aliquots']
-			count = l['count']
+			count = int(l['count'])
 			self.labels.append(Label(name, use_aliquots=use_aliquots, aliquots=aliquots, count=count))
 
 	def get_label_texts(self):
