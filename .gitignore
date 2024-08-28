@@ -3,4 +3,5 @@ __pycache__/
 kleb_db.sql
 test.py
 utils.py
+.pdf
 
