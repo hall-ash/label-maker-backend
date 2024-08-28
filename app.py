@@ -6,6 +6,7 @@ import os
 from api_logic import get_skips_dict
 
 app = Flask(__name__)
+CORS(app, resources={r"/*": {"origins": "http://192.168.134.118:3000"}})
 CORS(app)  # Enable Cross-Origin Resource Sharing (CORS)
 
 
@@ -24,11 +25,6 @@ def generate_pdf():
         start_label = data.get('start_label', None)
         border = data.get('border')
 
-        print('labels', labels)
-        print('sheet_type', sheet_type)
-        print('skip_labels', skip_labels)
-        print('start_label', start_label)
-
         input_labels = LabelList(labels).get_label_texts()
 
         used_label_dict = get_skips_dict(skip_labels, sheet_type, start_label) 
@@ -46,4 +42,5 @@ def generate_pdf():
 
 
 if __name__ == '__main__':
-    app.run(debug=True)
+    #app.run(debug=True)
+    app.run(host="192.168.134.118", port=5000)
