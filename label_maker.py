@@ -1,8 +1,6 @@
 import labels
 from reportlab.graphics import shapes
 from reportlab.pdfbase.pdfmetrics import stringWidth
-from sample import Sample
-from lots import lots
 from label import LabelList
 
 MU = "µ"
@@ -42,27 +40,6 @@ class LabelMaker:
         # Create the sheet.
         self.sheet = labels.Sheet(specs, self._write_multiline_text_to_label, border=border)
 
-
-      
-        # if start_label:
-        #     if used_label_dict:
-        #         used_label_dict[1].extend(self.start_on_label(start_label))
-        #     else:
-        #         used_label_dict = {1: self.start_on_label(start_label)}
-
-        # self.start_label = start_label
-
-        # if used_label_dict:
-        #     validated_skipped_labels = self._get_validated_skipped_labels(self.rows, self.cols, used_label_dict)
-        #     for page, used_labels in validated_skipped_labels.items():
-        #         self.sheet.partial_page(page, used_labels)
-
-
-        # if samples:
-        #     for sample in samples:
-        #         sample_labels = self._add_sample_labels(sample)
-        #         input_labels.extend(sample_labels)
-
         for page, used_labels in used_label_dict.items():
             self.sheet.partial_page(page, used_labels)
         
@@ -93,17 +70,6 @@ class LabelMaker:
         to_letter = lambda col : chr(col + 64) 
         # start_label = A17
         return to_letter(start_col) + str(start_row)
-
-
-    # def _add_sample_labels(self, sample):
-    #     aliquots = sample.aliquots
-    #     label_text = sample.name + "\n" + str(round(sample.concentration, 1)) + " " + sample.concentration_unit + " in water\n" 
-    #     sample_labels = []
-
-    #     for a in aliquots:
-    #         sample_labels.extend([f'{label_text}{a['volume']}{a['volume_unit']}, {a['mass']}{a['mass_unit']} {i} of {a['number']}' for i in range(1, a['number'] + 1)])
-
-    #     return sample_labels
 
 
     def _write_multiline_text_to_label(self, label, width, height, text):
@@ -249,19 +215,6 @@ if __name__ == "__main__":
 
     used_labels = LabelMaker.skip_by_cell_range(1, ['A1-E15'])
 
-    
-
-    # samples_ivt = [
-    #     Sample('Klebsiella KPO1 OPS B4\nLot IVT-KPO1-004', 1589.92337164751 / 1000, 'mg/mL', aliquots=kpo4_aliquots),
-    # ]
-
-
-
-   
-    #samples_ibpl = [Sample(lot['name'], lot['concentration'] / 1000, 'mg/mL', aliquots=lot['aliquots']) for lot in lots]
-
-
-    
     input_labels = [
         f'Klebsiella KPK149 CPS B2\nLot IVT-K149-002\n19.3 mg/mL in water\n5mg, 258{MU}L',
         f'Klebsiella KPK62 CPS B1\nLot IVT-K62-001\n6.6 mg/mL in water\n5mg, 757{MU}L',
