@@ -1,2 +1,6 @@
 .label_venv/
 __pycache__/
+kleb_db.sql
+test.py
+utils.py
+
