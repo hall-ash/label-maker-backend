@@ -52,7 +52,7 @@ class LabelMaker:
         #     self.sheet.preview(page, f'preview{page}.png')
        
         self.sheet.save(dest_path)
-        print("{0:d} label(s) output on {1:d} page(s).".format(self.sheet.label_count, self.sheet.page_count))
+        #print("{0:d} label(s) output on {1:d} page(s).".format(self.sheet.label_count, self.sheet.page_count))
 
 
     # TAKE INTO ACCOUNT ANY SKIPPED LABELS!!!!!!
