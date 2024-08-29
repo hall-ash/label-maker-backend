@@ -2,8 +2,10 @@ from flask import Flask, request, send_file, jsonify
 from label_maker import LabelMaker
 from label import LabelList
 from flask_cors import CORS
+from io import BytesIO
 import os
 from api_logic import get_skips_dict
+
 
 app = Flask(__name__)
 CORS(app, resources={r"/*": {"origins": "http://192.168.134.118:3000"}})
@@ -30,12 +32,19 @@ def generate_pdf():
         used_label_dict = get_skips_dict(skip_labels, sheet_type, start_label) 
         label_maker = LabelMaker(input_labels=input_labels, used_label_dict=used_label_dict, sheet_type=sheet_type, border=border)
         
+        pdf_buffer = BytesIO()
+
         # Path to save the PDF file
-        file_path = os.path.join(os.path.expanduser('~'), 'Downloads', 'demo.pdf')
-        label_maker.save(file_path)
+        #file_path = os.path.join(os.path.expanduser('~'), 'Downloads', 'demo.pdf')
+        #label_maker.save(file_path)
+        label_maker.save(pdf_buffer)
+
+        pdf_buffer.seek(0)
+
+        return send_file(pdf_buffer, as_attachment=True, download_name='demo.pdf', mimetype='application/pdf')
         
         # Send the file back to the client
-        return send_file(file_path, as_attachment=True)
+        #return send_file(file_path, as_attachment=True)
     except Exception as e:
         return jsonify({'error': str(e)}), 500
 
