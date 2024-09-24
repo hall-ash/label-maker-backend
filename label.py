@@ -8,13 +8,13 @@ class Label:
 			self.count = 0
 		else:
 			self.aliquots = []
-			if not count:
-				self.count = 0
-			else:
+			if count:
 				try:
 					self.count = int(count)
 				except ValueError:
-					raise ValueError(f"Count must be an integer, but got '{count}'")
+					raise ValueError(f"Count must be an integer, but got '{typeof count}'")
+			else:
+				self.count = 0
 
 
 	def get_text(self):
