@@ -34,6 +34,7 @@ class LabelMaker:
         #specs = labels.Specification(sheet_width, sheet_height, cols, rows, label_width, label_height, left_margin=x_margin, column_gap=x_gap, top_margin=top_margin, row_gap=y_gap, corner_radius=2) # top_padding=2, bottom_padding=1, left_padding=1, right_padding=1, padding_radius=1)
 
         self.font_size = font_size
+        self.fit_text = fit_text
 
         specs = labels.Specification(sheet_width, sheet_height, self.cols, self.rows, label_width, label_height, column_gap=column_gap, row_gap=row_gap, left_margin=x_margin, top_margin=top_margin, corner_radius=corner_radius, left_padding=padding_value, top_padding=padding_value, bottom_padding=padding_value, right_padding=padding_value) if padding_value \
             else labels.Specification(sheet_width, sheet_height, self.cols, self.rows, label_width, label_height, column_gap=column_gap, row_gap=row_gap, left_margin=x_margin, top_margin=top_margin, corner_radius=corner_radius)
