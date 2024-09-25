@@ -12,7 +12,7 @@ class Label:
 				try:
 					self.count = int(count)
 				except ValueError:
-					raise ValueError(f"Count must be an integer, but got '{typeof count}'")
+					raise ValueError(f"Count must be an integer, but got '{type(count)}'")
 			else:
 				self.count = 0
 
