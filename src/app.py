@@ -19,7 +19,7 @@ allowed_origins = os.getenv("CORS_ALLOWED_ORIGINS", "*")
 CORS(app, resources={r"/api/*": {"origins": allowed_origins.split(",")}})
 
 # Configure logging
-logging.basicConfig(filename='error.log', level=logging.INFO,
+logging.basicConfig(filename='./tests/error.log', level=logging.INFO,
                     format='%(asctime)s - %(levelname)s - %(message)s')
 
 # Log each request
@@ -51,6 +51,9 @@ def validate_payload(data):
 
     if not isinstance(data, dict):
         return "Invalid payload: Data must be a JSON object."
+    
+    if not data.get('labels'):
+        return "No labels provided."
 
     for field, expected_type in expected_fields.items():
         if field in data and not isinstance(data[field], expected_type):
@@ -68,14 +71,14 @@ def generate_pdf():
             return jsonify({"error": "Invalid JSON payload"}), 400  
 
         if not data:
-            raise ValueError("No data provided")
+            return jsonify({"error": "No data provided"}), 400
 
         # Validate data
         error_message = validate_payload(data)
         if error_message:
-            raise ValueError(error_message)
+            return jsonify({"error": error_message}), 400
 
-        labels = data.get('labels', [])
+        labels = data.get('labels')
         sheet_type = data.get('sheet_type', "LCRY-1700")
         skip_labels = data.get('skip_labels', None)
         start_label = data.get('start_label', None)

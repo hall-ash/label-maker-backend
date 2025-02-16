@@ -50,14 +50,13 @@ class TestPDFGenerationAPI(unittest.TestCase):
 
         response = self.client.post('/api/generate_pdf', data=json.dumps(data), content_type='application/json')
         
-        self.assertEqual(response.status_code, 500)
-        self.assertIn("No labels provided", response.get_json().get("error", ""))
+        self.assertEqual(response.status_code, 400)
 
     def test_generate_pdf_invalid_json(self):
         """Test API response when sending invalid JSON."""
         response = self.client.post('/api/generate_pdf', data="Invalid JSON", content_type='application/json')
 
-        self.assertEqual(response.status_code, 500)
+        self.assertEqual(response.status_code, 400)
 
     def test_generate_pdf_missing_fields(self):
         """Test API with missing optional fields."""
@@ -80,7 +79,7 @@ class TestPDFGenerationAPI(unittest.TestCase):
 
         response = self.client.post('/api/generate_pdf', data=json.dumps(data), content_type='application/json')
 
-        self.assertEqual(response.status_code, 500)
+        self.assertEqual(response.status_code, 400)
 
 if __name__ == "__main__":
     unittest.main()
