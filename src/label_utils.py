@@ -1,10 +1,13 @@
+from static.sheet_types import sheet_types
+
+
 def process_skip_labels_input(input_text):
     labels_skipped_by_pg = []
     pages = input_text.strip().split('\n')
     for pg in pages:
         pg_no, skips = pg.split(':')
         pg_no = int(pg_no.strip())
-        skips = [skip.replace(' ', '') for skip in skips.strip().split(', ')]
+        skips = [skip.replace(' ', '') for skip in skips.strip().split(',')]
         labels_skipped_by_pg.append((pg_no, skips))
     return labels_skipped_by_pg
 
@@ -21,7 +24,7 @@ def get_row_col(num, max_cols):
     if col == 0:
         col = max_cols
         row -= 1
-    return (row, col)
+    return row, col
 
 def convert_skip_range_to_list(cell_ranges, max_rows, max_cols):
     '''
@@ -56,12 +59,11 @@ def convert_skip_range_to_list(cell_ranges, max_rows, max_cols):
     return list(skips)
 
 
-def get_skips_dict(skip_input, label_type, start_label):
+def get_skips_dict(skip_input, sheet_type, start_label):
 
-    dims = {
-        'LCRY-1700': (17, 5),
-    }
-    rows, cols = dims[label_type]
+    sheet = sheet_types.get(sheet_type)
+    rows = sheet.get('rows')
+    cols = sheet.get('cols')
 
     if skip_input:
         processed_input = process_skip_labels_input(skip_input)
@@ -72,7 +74,7 @@ def get_skips_dict(skip_input, label_type, start_label):
     if start_label:
         last_pos = get_num_from_cell(start_label, cols)
         labels_to_skip = [get_row_col(pos, cols) for pos in range(1, last_pos)]
-        if 1 in skips_dict:
+        if 1 in skips_dict: #first page
             for skip in labels_to_skip:
                 if skip not in skips_dict[1]:
                     skips_dict[1].append(skip)
