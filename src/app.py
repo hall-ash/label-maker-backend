@@ -5,12 +5,8 @@ from flask_cors import CORS
 from io import BytesIO
 from src.label_utils import get_skips_dict
 import os
-from dotenv import load_dotenv
 import logging
 from werkzeug.exceptions import HTTPException
-
-# Load environment variables
-load_dotenv()
 
 app = Flask(__name__)
 
