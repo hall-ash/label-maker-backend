@@ -1,7 +1,40 @@
-.label_venv/
+# Byte-compiled / cached files
 __pycache__/
-kleb_db.sql
-test.py
-utils.py
-.pdf
+*.pyc
+*.pyo
+*.pyd
+
+# Virtual environment
+.label_venv/
+
+# Environment variables & secrets
+.env
+*.env
+
+# Dependency logs
+pip-log.txt
+pip-delete-this-directory.txt
+
+# Coverage reports
+.coverage
+htmlcov/
+coverage.xml
+
+# Testing artifacts
+/tests/__pycache__/
+/tests/*.log
+.pytest_cache/
+
+# Flask-related files
+instance/
+*.sqlite3
+*.db
+
+# OS-specific files
+.DS_Store
+Thumbs.db
+
+# Git-specific
+.git/
+
 
