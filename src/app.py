@@ -11,8 +11,8 @@ from werkzeug.exceptions import HTTPException
 app = Flask(__name__)
 
 # Handle CORS 
-allowed_origins = os.getenv("CORS_ALLOWED_ORIGINS", "*")  
-CORS(app, resources={r"/api/*": {"origins": allowed_origins.split(",")}})
+allowed_origins = os.getenv("CORS_ALLOWED_ORIGINS")  
+CORS(app, resources={r"/api/*": {"origins": allowed_origins}})
 
 # Configure logging
 logging.basicConfig(filename='./tests/error.log', level=logging.INFO,
